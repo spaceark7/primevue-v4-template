@@ -1,0 +1,22 @@
+body {
+  font-family: var(--font-family);
+}
+
+.p-input-icon-right > svg {
+  position: absolute;
+  top: 50%;
+  margin-top: -0.5rem;
+  right: 0.75rem;
+}
+
+.greenBar.p-progressbar .p-progressbar-value {
+  background: green;
+}
+
+.yellowBar.p-progressbar .p-progressbar-value {
+  background: yellow;
+}
+
+.redBar.p-progressbar .p-progressbar-value {
+  background: red;
+}
