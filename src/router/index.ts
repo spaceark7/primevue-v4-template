@@ -10,7 +10,6 @@ const router = createRouter({
       component: () => import('@/ui/views/pages/Landing.vue')
     },
     {
-    
     path: '/app',
     component: AppLayout,
     children: [
@@ -189,7 +188,46 @@ const router = createRouter({
       path: '/auth/error',
       name: 'error',
       component: () => import('@/ui/views/pages/auth/Error.vue')
-    }],
+    },
+    //#region Error Pages
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () =>
+        import('@/ui/views/error-pages/NotFound.vue'),
+      meta: {
+        title: '404',
+      },
+      // beforeEnter: (to, from, next) => {
+      //   console.log(`[${CNAME}]:beforeEnter:NotFound:`, to.fullPath);
+      //   if (isAuthenticated()) {
+      //     next();
+      //   } else {
+      //     next('/error/access-denied');
+      //   }
+      // },
+    },
+    {
+      path: '/error/access-denied',
+      name: 'access-denied',
+      component: () =>
+        import('@/ui/views/error-pages/AccessDenied.vue'),
+      meta: {
+        title: 'Access Denied',
+      },
+    },
+    {
+      path: '/error/unknown',
+      name: 'unknown',
+      component: () =>
+        import('@/ui/views/error-pages/Unknown.vue'),
+      meta: {
+        title: 'Someting Went Wrong',
+      },
+    },
+    //#endregion Error Pages
+
+  ],
 })
 
 export default router
