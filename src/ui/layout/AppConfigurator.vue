@@ -1,6 +1,5 @@
 <template>
-  <div
-    class="config-panel  right-0 w-64 p-4 bg-surface-0 dark:bg-surface-900 origin-top ">
+  <div class="config-panel  right-0 w-64 p-4 bg-surface-0 dark:bg-surface-900 origin-top ">
     <div class="flex flex-col gap-4">
       <div>
         <span class="text-sm text-muted-color font-semibold">Primary</span>
@@ -32,8 +31,12 @@
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-sm text-muted-color font-semibold">Presets</span>
-        <SelectButton v-model="preset" @change="onPresetChange" :options="presetOptions" :allowEmpty="false" />
+        <SelectButton v-model="preset" @change="onPresetChange" :options="presetOptions.slice(0, 3)"
+          :allowEmpty="false" />
+        <SelectButton v-model="preset" @change="onPresetChange" :options="presetOptions.slice(3, 4)"
+          :allowEmpty="false" />
       </div>
+
       <div class="flex flex-col gap-2">
         <span class="text-sm text-muted-color font-semibold">Color Scheme</span>
         <SelectButton v-model="colorScheme" @change="onColorSchemeChange" :options="colorSchemeOptions"
@@ -60,7 +63,8 @@
               <label for="menuModeSlim">Slim</label>
             </div>
             <div class="flex items-center gap-2 w-1/2">
-              <RadioButton v-model="menuMode" inputId="menuModeSlimPlus" :value="'slim-plus'" @change="onMenuModeChange" />
+              <RadioButton v-model="menuMode" inputId="menuModeSlimPlus" :value="'slim-plus'"
+                @change="onMenuModeChange" />
               <label for="menuModeSlimPlus">Slim+</label>
             </div>
           </div>
@@ -80,10 +84,11 @@
         <div class="flex flex-wrap flex-col gap-3">
           <div class="flex">
             <div class="flex items-center gap-2 w-1/2">
-              <RadioButton v-model="menuMode" inputId="menuModeHorizontal" :value="'horizontal'" @change="onMenuModeChange" />
+              <RadioButton v-model="menuMode" inputId="menuModeHorizontal" :value="'horizontal'"
+                @change="onMenuModeChange" />
               <label for="menuModeHorizontal">Horizontal</label>
             </div>
-           
+
           </div>
         </div>
         <!-- <SelectButton v-model="menuMode" @change="onMenuModeChange" :options="menuModeOptions" :allowEmpty="false"

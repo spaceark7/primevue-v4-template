@@ -195,7 +195,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { ProductService } from '@/service/ProductService';
+import { ProductService } from '@/infrastructure/demo/service/ProductService';
 import { FilterMatchMode } from '@primevue/core/api';
 import { useLayout } from '@/ui/composables/Layout';
 

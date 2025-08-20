@@ -1,6 +1,6 @@
 <script setup>
-import { CustomerService } from '@/service/CustomerService';
-import { ProductService } from '@/service/ProductService';
+import { CustomerService } from '@/infrastructure/demo/service/CustomerService';
+import { ProductService } from '@/infrastructure/demo/service/ProductService';
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 import { onBeforeMount, reactive, ref } from 'vue';
 

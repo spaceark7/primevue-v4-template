@@ -318,9 +318,14 @@ const menu: Ref<any[]> = ref([
     icon: 'pi pi-fw pi-star-fill',
     items: [
       {
+        label: 'Example',
+        icon: 'pi pi-fw pi-desktop',
+        to: '/app/uikit/example',
+      },
+      {
         label: 'Form Layout',
         icon: 'pi pi-fw pi-id-card',
-        to: '/uikit/formlayout',
+        to: '/app/uikit/formlayout',
       },
       {
         label: 'Dynamic Form Demo',
@@ -358,7 +363,6 @@ const menu: Ref<any[]> = ref([
         icon: 'pi pi-fw pi-table',
         to: '/uikit/table',
       },
-
       {
         label: 'Kanban Board',
         icon: 'pi pi-fw pi-map',
@@ -613,37 +617,37 @@ const menu: Ref<any[]> = ref([
       {
         label: 'Product Overview',
         icon: 'pi pi-fw pi-image',
-        to: '/ecommerce/product-overview',
+        to: '/app/ecommerce/product-overview',
       },
       {
         label: 'Product List',
         icon: 'pi pi-fw pi-list',
-        to: '/ecommerce/product-list',
+        to: '/app/ecommerce/product-list',
       },
       {
         label: 'New Product',
         icon: 'pi pi-fw pi-plus',
-        to: '/ecommerce/new-product',
+        to: '/app/ecommerce/new-product',
       },
       {
         label: 'Shopping Cart',
         icon: 'pi pi-fw pi-shopping-cart',
-        to: '/ecommerce/shopping-cart',
+        to: '/app/ecommerce/shopping-cart',
       },
       {
         label: 'Checkout Form',
         icon: 'pi pi-fw pi-check-square',
-        to: '/ecommerce/checkout-form',
+        to: '/app/ecommerce/checkout-form',
       },
       {
         label: 'Order History',
         icon: 'pi pi-fw pi-history',
-        to: '/ecommerce/order-history',
+        to: '/app/ecommerce/order-history',
       },
       {
         label: 'Order Summary',
         icon: 'pi pi-fw pi-file',
-        to: '/ecommerce/order-summary',
+        to: '/app/ecommerce/order-summary',
       },
     ],
   },

@@ -4,6 +4,7 @@ import { $t, updatePreset, updateSurfacePalette } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
 import Lara from '@primeuix/themes/lara'
 import Nora from '@primeuix/themes/nora'
+import Material from '@primeuix/themes/material'
 import { useWindowSize } from '@vueuse/core';
 import { EBreakPoint } from '@/helpers/Enum'
 
@@ -436,11 +437,12 @@ export function useLayout() {
     Aura,
     Lara,
     Nora,
+    Material,
   }
   const windowWidth = width;
   const windowHeight = height;
   //#endregion Datas
-  
+
   //#region Methods
   const setActiveMenuItem = (item: any) => {
     layoutState.activeMenuItem = item.value || item
@@ -642,7 +644,7 @@ export function useLayout() {
       layoutState.staticMenuMobileActive ||
       layoutState.overlaySubmenuActive,
   );
-  
+
   const isDesktopMode = computed(
     () => windowWidth.value > EBreakPoint.NotebookLG,
   );
@@ -692,7 +694,6 @@ export function useLayout() {
       surfaces: surfaces.value,
     },
     currentColorScheme,
-
     getPrimary,
     getSurface,
     isDarkTheme,

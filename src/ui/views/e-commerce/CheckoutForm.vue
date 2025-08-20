@@ -210,7 +210,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { CountryService } from '@/service/CountryService';
+import { CountryService } from '@/infrastructure/demo/service/CountryService';
 
 const value = ref('');
 const quantities = ref([1, 1, 1]);
