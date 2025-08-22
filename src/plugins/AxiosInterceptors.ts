@@ -256,7 +256,6 @@ const getRefreshToken = async (token?: string) => {
     headers: {
       [API_KEY_NAME]: API_KEY_VALUE,
       'Require-Token': false,
-      'x-api-key': 'invalid-api-key'
       //Authorization: `Bearer ${token}`,
       // credentials: 'include',
     },

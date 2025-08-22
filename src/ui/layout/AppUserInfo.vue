@@ -10,7 +10,8 @@
     </li>
     <li class="ml-3">
       <div class="relative">
-        <button type="button" class="p-button p-component p-button-icon-only p-button-rounded" @click="configPopover?.toggle($event)">
+        <button type="button" class="p-button p-component p-button-icon-only p-button-rounded"
+          @click="configPopover?.toggle($event)">
           <i class="pi pi-palette"></i>
         </button>
         <Popover ref="configPopover">
@@ -35,7 +36,7 @@
               Language
             </p>
             <div class="px-2">
-              <Dropdown class="w-full" v-model="selectedLang" :options="availableLangsOptions" optionValue="value"
+              <Select class="w-full" v-model="selectedLang" :options="availableLangsOptions" optionValue="value"
                 optionLabel="label" @change="onChangeLang">
                 <template #value="slotProps">
                   <div v-if="slotProps.value" class="flex align-items-center">
@@ -52,7 +53,7 @@
                     <div>{{ slotProps.option.label }}</div>
                   </div>
                 </template>
-              </Dropdown>
+              </Select>
             </div>
           </div>
 
@@ -61,7 +62,7 @@
               Color Scheme
             </p>
             <div class="px-2">
-              <Dropdown class="w-full" v-model="selectedColorScheme" :options="colorSchemes" optionValue="value"
+              <Select class="w-full" v-model="selectedColorScheme" :options="colorSchemes" optionValue="value"
                 optionLabel="label" @change="onChangeColorScheme">
                 <template #value="slotProps">
                   <div v-if="slotProps.value" class="flex align-items-center">
@@ -76,7 +77,7 @@
                     <div>{{ slotProps.option.label }}</div>
                   </div>
                 </template>
-              </Dropdown>
+              </Select>
             </div>
           </div>
         </template>
@@ -258,7 +259,7 @@ const toggleNotifOverlay = async (e: Event) => {
 };
 
 const openSettings = () => {
- 
+
 };
 
 //#endregion Methods

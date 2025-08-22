@@ -22,7 +22,8 @@
 <script setup lang="ts">
 import useAuthApi from '@/ui/composables/apis/AuthApi';
 import { Button } from 'primevue';
-import { ref } from 'vue';
+import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
+import { inject, ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 
@@ -33,6 +34,12 @@ const email = ref('');
 const password = ref('');
 const checked = ref(false);
 
+const dialogRef = inject<Ref<DynamicDialogInstance> | null>('dialogRef', null);
+let hideForgot = false;
+if (dialogRef && dialogRef.value.data.hideForgot) {
+  hideForgot = dialogRef.value.data.hideForgot;
+}
+
 
 const handleLogin = async () => {
   console.log('login initiated');
@@ -41,6 +48,9 @@ const handleLogin = async () => {
   if (login.isSuccess) {
     // Handle successful login
     console.log('handleLogin:success', login.data.value);
+    if (dialogRef && dialogRef.value) {
+      dialogRef.value.close();
+    }
     router.push('/app');
   } else {
     // Handle login error

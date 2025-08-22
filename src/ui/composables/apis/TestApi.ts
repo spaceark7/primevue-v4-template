@@ -55,21 +55,30 @@ export const useTestFetchApi = () => {
   //   enabled: false,
   //   ...options
   // });
-  const findManyBook = (params?: any, options?: UseQueryOptions<TestArrayEntity[], Error>) => {
-    const query = useQuery({
+  // const findManyBook = (params?: any, options?: UseQueryOptions<TestArrayEntity[], Error>) => {
+  //   const query = useQuery({
+  //     // queryKey: queryKeys.list(params),
+  //     queryKey: ['books'],
+  //     queryFn: () => testFetchArrayUseCase.call(params),
+  //     enabled: false,
+  //     ...options
+  //   });
+  //   const data = computed(() => query.data.value || []);
+
+  //   return {
+  //     ...query,
+  //     data
+  //   };
+  // }
+  const findManyBook = (params?: any, options?: UseQueryOptions<TestArrayEntity[], Error>) =>
+    useQuery({
       // queryKey: queryKeys.list(params),
       queryKey: ['books'],
       queryFn: () => testFetchArrayUseCase.call(params),
       enabled: false,
       ...options
     });
-    const data = computed(() => query.data.value || []);
 
-    return {
-      ...query,
-      data
-    };
-  }
 
   return {
     fetchTest,

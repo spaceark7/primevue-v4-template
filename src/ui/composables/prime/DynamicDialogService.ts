@@ -17,6 +17,7 @@ export const useDynamicDialogService = () => {
       close: (params: any) => {
         DynamicDialogEventBus.emit('close', { instance, params });
       },
+
     };
 
     DynamicDialogEventBus.emit('open', { instance });
