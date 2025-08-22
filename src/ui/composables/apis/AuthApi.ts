@@ -10,7 +10,8 @@ const useAuthApi = () => {
     onSuccess: (data) => {
       console.log('Login successful:', data);
       appAuthStore.setState(data);
-    }
+    },
+    retry: 0
   })
 
   const logout = async () => {

@@ -5,6 +5,8 @@ import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 <template>
   <RouterView />
   <VueQueryDevtools />
+  <ConfirmDialog></ConfirmDialog>
+  <DynamicDialog />
 </template>
 
 <style scoped></style>

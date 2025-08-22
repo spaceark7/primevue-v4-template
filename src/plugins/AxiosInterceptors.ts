@@ -192,6 +192,8 @@ const onResponseError = async (
             return Promise.reject(error);
           }
         } catch (e) {
+          forceLogout();
+
           return Promise.reject(e);
         } finally {
           isRefreshing = false;
@@ -233,7 +235,7 @@ const getRefreshToken = async (token?: string) => {
     headers: {
       [API_KEY_NAME]: API_KEY_VALUE,
       'Require-Token': false,
-      'x-api-key': 'valid-api-key'
+      'x-api-key': 'invalid-api-key'
       //Authorization: `Bearer ${token}`,
       // credentials: 'include',
     },
@@ -248,18 +250,20 @@ const getRefreshToken = async (token?: string) => {
       .catch((error: AxiosError) => {
         if (axios.isAxiosError(error)) {
           const axiosResponse = error.response;
-          const remoteResponse = axiosResponse?.data ;
+          const remoteResponse = axiosResponse?.data;
 
           console.info(
             `[Axios] getRefreshToken.catch.error.remote:`,
             `${error.message} - ${JSON.stringify(remoteResponse)}`,
           );
+
         } else {
           console.info(
             `[Axios] getRefreshToken.catch.error.internal:`,
             `${error}`,
           );
-          // forceLogout();
+          forceLogout();
+
         }
 
         return Promise.reject(error);
