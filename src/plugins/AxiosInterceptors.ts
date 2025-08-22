@@ -32,6 +32,7 @@ const confirmation = useConfirmationService();
 const dialog = useDynamicDialogService();
 
 let isRefreshing = false;
+let currentRetryCount = 0;
 const refreshAndRetryQueue: RetryQueueItem[] = [];
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig<any> => {
@@ -95,13 +96,19 @@ const onResponseError = async (
     forceLogout();
     return Promise.reject(error);
   }
+  if (currentRetryCount === REFRESH_TOKEN_MAX_RETRY) {
+    console.info('[Axios] onResponseError.ForceLogout:', '2');
+    //* force logout
+    forceLogout();
+    return Promise.reject(error);
+  }
   //&& headers['Require-Token']
   if (error.response?.status === 401 && headers['Require-Token']) {
     //const { accessToken: currentToken } = getAppADState();
     console.info(
       '[Axios] onResponseError.Require-Token:',
       headers['Require-Token'],
-      error.response.data?.meta?.path,
+      originalRequest.url,
       refreshAndRetryQueue.length,
       isRefreshing,
     );
@@ -112,8 +119,8 @@ const onResponseError = async (
         headers['Retry-Count'],
       );
 
-      if (headers['Retry-Count'] == REFRESH_TOKEN_MAX_RETRY) {
-        console.info('[Axios] onResponseError.ForceLogout:', '2');
+      if (headers['Retry-Count'] === REFRESH_TOKEN_MAX_RETRY) {
+        console.info('[Axios] onResponseError.ForceLogout:', '3');
         console.info(
           '[Axios] onResponseError.Retry-Count-Max:',
           REFRESH_TOKEN_MAX_RETRY,
@@ -169,6 +176,7 @@ const onResponseError = async (
                 'Retry-Count': retryCount,
                 Authorization: `Bearer ${newData.accessToken}`,
               };
+              console.log('[Axios] onResponseError.refreshAndRetryQueue:', config);
               axios
                 .request(config)
                 .then((response) => resolve(response))
@@ -189,18 +197,29 @@ const onResponseError = async (
                 }),
             );
           } else {
+            isRefreshing = true;
             return Promise.reject(error);
           }
         } catch (e) {
-          forceLogout();
-
-          return Promise.reject(e);
-        } finally {
           isRefreshing = false;
+          console.error('[Axios] onResponseError.getRefreshToken.catch:', e);
+          // Clear the queue if the refresh token request fails
+          refreshAndRetryQueue.length = 0;
+
+
+          // Log the error
+          console.error('[Axios] onResponseError.getRefreshToken.catch.error:', e);
+
+          // Reject all queued requests with the error
+          refreshAndRetryQueue.forEach(({ reject }) => reject(e));
+
+          // Clear the queue
+          refreshAndRetryQueue.length = 0;
+
         }
       } else {
         // Add the original request to the queue
-        console.log('refreshAndRetryQueue', refreshAndRetryQueue);
+        console.log('[Axios] refreshAndRetryQueue', refreshAndRetryQueue);
 
         return new Promise((resolve, reject) => {
           refreshAndRetryQueue.push({
@@ -218,6 +237,8 @@ const onResponseError = async (
   } else {
     console.log('[Axios] onResponseError.Beside401:status', error.response?.status);
     console.info('[Axios] onResponseError.Beside401:', '-');
+    forceLogout();
+
   }
 
   return Promise.reject(error);
@@ -265,8 +286,12 @@ const getRefreshToken = async (token?: string) => {
           forceLogout();
 
         }
-
+        currentRetryCount++;
         return Promise.reject(error);
+      }).finally(() => {
+        console.info('[Axios] getRefreshToken.finally');
+        isRefreshing = true;
+
       }),
   );
 };
