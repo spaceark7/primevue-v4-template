@@ -32,6 +32,7 @@ const topbarRef = ref();
 //#endregion Element Ref
 //#region Watcher
 watch(isSidebarActive, (newVal) => {
+  console.log('isSidebarActive:', newVal);
   if (newVal) {
     bindOutsideClickListener()
   } else {
@@ -87,8 +88,8 @@ const unbindOutsideClickListener = () => {
 
 const isOutsideClicked = (event: Event) => {
   const sidebarEl = document.querySelector('.layout-sidebar')
-  const topbarEl = document.querySelector('.layout-menu-button')
-  
+  const topbarEl = document.querySelector('.topbar-menubutton')
+
   console.log('isOutsideClicked:sidebarEl', sidebarEl);
   console.log('isOutsideClicked:topbarEl', topbarEl);
   return !(

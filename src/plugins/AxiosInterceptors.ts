@@ -1,6 +1,8 @@
-import type { AuthEntity, LoginResponse } from '@/core/auth/AuthEntity';
-import { ContentType } from '@/infrastructure/services/data-sources/http-client';
+import type { AuthEntity } from '@/core/auth/AuthEntity';
+import { EBreakPoint, EBreakPointVW } from '@/helpers/Enum';
 import { useAppAuthStore } from '@/stores/AppAuthStore';
+import { useConfirmationService, useDynamicDialogService } from '@/ui/composables/prime';
+import LoginForm from '@/ui/views/auth/LoginForm.vue';
 import type {
   AxiosError,
   AxiosInstance,
@@ -24,6 +26,10 @@ const API_CONTENT_TYPE = 'application/json';
 const REFRESH_TOKEN_ENDPOINT = 'refresh-token';
 const REFRESH_TOKEN_MAX_RETRY = 3;
 const REQUEST_TIMEOUT = 30000;
+
+
+const confirmation = useConfirmationService();
+const dialog = useDynamicDialogService();
 
 let isRefreshing = false;
 const refreshAndRetryQueue: RetryQueueItem[] = [];
@@ -79,7 +85,7 @@ const onResponseError = async (
   if (!headers) {
     console.info('[Axios] onResponseError.ForceLogout:', '1');
     //* force logout
-    // forceLogout();
+    forceLogout();
     return Promise.reject(error);
   }
   //&& headers['Require-Token']
@@ -107,7 +113,7 @@ const onResponseError = async (
         );
 
         //* force logout
-        // forceLogout();
+        forceLogout();
         return Promise.reject(error);
       }
 
@@ -198,9 +204,10 @@ const onResponseError = async (
     } else {
       //#region force logout
       console.info('[Axios] onResponseError.ForceLogout:', '3');
-      // forceLogout();
+      forceLogout();
     }
   } else {
+    console.log('[Axios] onResponseError.Beside401:status', error.response?.status);
     console.info('[Axios] onResponseError.Beside401:', '-');
   }
 
@@ -256,6 +263,63 @@ const getRefreshToken = async (token?: string) => {
 const getAuthStoreState = () => {
   const appAuthStore = useAppAuthStore();
   return appAuthStore.getState as AuthEntity;
+};
+
+const forceLogout = () => {
+  //* appADStore
+  const appADStore = useAppAuthStore();
+  appADStore.logout();
+  appADStore.resetState();
+
+  confirmation.require({
+    header: 'Session Expired',
+    message: 'Your session has expired. Please log in again.',
+    icon: 'pi pi-exclamation-triangle',
+    rejectLabel: 'No',
+    acceptLabel: 'Yes',
+    rejectClass: 'p-button-secondary p-button-outlined',
+    acceptClass: 'p-button-danger',
+    accept: () => {
+      dialog.open(LoginForm, {
+        props: {
+          header: 'Login',
+          style: {
+            width: '30vw',
+          },
+          breakpoints: {
+            [EBreakPoint.PhoneSM + 'px']: EBreakPointVW['75vw'],
+            [EBreakPoint.TabletMD + 'px']: EBreakPointVW['75vw'],
+            [EBreakPoint.NotebookLG + 'px']: EBreakPointVW['75vw'],
+          },
+          modal: true,
+        },
+        onClose: () => {
+          window.location.reload();
+        },
+        data: {
+          hideForgot: true,
+        },
+      });
+    },
+    reject: () => {
+      window.location.reload();
+      // setTimeout(function () {
+      //   window.location.reload();
+      // }, 10000);
+    },
+    onHide: () => {
+      window.location.reload();
+    },
+  });
+
+  // toast.add({
+  //   severity: 'error',
+  //   summary: i18n.global.t('error_pages.session_expired'),
+  //   detail: i18n.global.t('error_pages.session_expired_desc'),
+  //   life: 10000,
+  // });
+
+  console.log('[Axios] forceLogout:');
 };
 
 export const setupInterceptors = (axiosInstance: AxiosInstance) :AxiosInstance =>  {

@@ -1,44 +1,46 @@
-import type { TestRepository } from "@/core/test/TestRepository";
 import type { TestArrayEntity, TestEntity } from "@/core/test/TestEntity";
-import { testFetchClient, type TestFetch } from "../data-sources/TestFetch";
-import { Either } from "@/helpers/Either";
-import { EFailureType, type IFailure } from "@/types/Failure";
-import axios, { AxiosError } from "axios";
+import type { TestRepository } from "@/core/test/TestRepository";
 import type { IRemoteResponse } from "@/types/ResponseInternal";
-import type { ResponseDTO } from "@/types/ResponseDTO";
+import axios, { AxiosError } from "axios";
+import { testFetchClient, type TestFetch } from "../data-sources/TestFetch";
 
 export class TestFetchRepositoryImpl implements TestRepository {
   constructor(private testFetchClient: TestFetch) { }
 
-  fetchTest(params: any): Promise<Either<IFailure, TestEntity>> {
-    // return this.testFetchClient.testFetch(params)
-    //   .then(res => {
-    //     const remoteData = res.data;
+  async fetchTest(params: any): Promise<TestEntity> {
 
-    //     if (remoteData.) {
-    //       return Either.right(remoteData.data);
-    //     } else {
-    //       return Either.left({
-    //         type: EFailureType.ResponseInvalid,
-    //         message: remoteData.message || 'Unknown error',
-    //       });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error(`[${TestFetchRepositoryImpl.name}.${this.fetchTest.name}] catch.error:`, error);
-    //     return Either.left({
-    //       type: EFailureType.Unexpected,
-    //       message: EFailureType.Unexpected + 'FAILURE',
-    //     });
-    //   });
-    throw new Error("Method not implemented.");
+    try {
+      const remoteResponse = await this.testFetchClient.testFetch(params);
+      const responseData = remoteResponse.data;
+
+      return responseData as TestEntity;
+
+    } catch (error) {
+      console.error(`[${TestFetchRepositoryImpl.name}.${this.fetchTest.name}] catch.error:`, error instanceof AxiosError);
+      if (axios.isAxiosError(error)) {
+        console.log('Axios error occurred');
+        const axiosResponse = error.response;
+        const remoteResponse = axiosResponse?.data as IRemoteResponse;
+        console.log('Remote response:', remoteResponse);
+
+        throw new Error(remoteResponse ? (Array.isArray(remoteResponse.message) ? remoteResponse.message.join(', ') : remoteResponse.message) : error.message);
+      } else {
+
+        throw new Error(error instanceof Error ? error.message : 'Unexpected error');
+      }
+
+    }
+
+
   }
 
-  async fetchTestArray(params: any): Promise<ResponseDTO<TestArrayEntity[]>> {
+  async fetchTestArray(params: any): Promise<TestArrayEntity[]> {
     try {
       const response = await this.testFetchClient.testFetchArray(params);
       console.log('Fetch successful:', response.data);
-      return response.data;
+      const remoteData = response.data;
+      return remoteData.data as TestArrayEntity[];
+
     } catch (error) {
 
       console.error(`[${TestFetchRepositoryImpl.name}.${this.fetchTestArray.name}] catch.error:`, error instanceof AxiosError);

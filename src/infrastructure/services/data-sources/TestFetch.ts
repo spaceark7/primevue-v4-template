@@ -1,8 +1,9 @@
 import type { TestArrayEntity, TestEntity } from "@/core/test/TestEntity";
 import { APP_CONFIG } from "@/helpers/Config";
 import type { AxiosRequestConfig } from "axios";
-import { ContentType, HttpClient, HttpMethod } from "./http-client";
+import { HttpClient } from "./http-client";
 import type { ResponseDTO } from "@/types/ResponseDTO";
+import { ContentType, HttpMethod } from "@/types/HttpClient";
 
 export class TestFetch extends HttpClient {
   private static _instance: TestFetch | null = null;

@@ -34,12 +34,19 @@ export const useTestFetchApi = () => {
     list: (params?: any) => [...queryKeys.all(), params],
 
   }
-  const fetchTest = (params?: any, options?: UseQueryOptions<TestEntity, Error>): UseQueryReturnType<TestEntity, Error> => useQuery<TestEntity>({
-    queryKey: queryKeys.all(),
-    queryFn: () => testFetchUseCase.call(params),
-    enabled: false,
-    ...options
-  });
+  const fetchTest = (params?: any, options?: UseQueryOptions<TestEntity, Error>): UseQueryReturnType<TestEntity | undefined, Error> => {
+    const query = useQuery<TestEntity | any>({
+      queryKey: queryKeys.all(),
+      queryFn: () => testFetchUseCase.call(params),
+      enabled: false,
+      ...options
+    });
+    const data = computed(() => query.data.value);
+    return {
+      ...query,
+      data
+    };
+  }
 
   // const findManyBook = (params?: any, options?: UseQueryOptions<ResponseDTO<TestArrayEntity[]>, Error>): UseQueryReturnType<ResponseDTO<TestArrayEntity[]>, Error> => useQuery({
   //   // queryKey: queryKeys.list(params),
@@ -48,7 +55,7 @@ export const useTestFetchApi = () => {
   //   enabled: false,
   //   ...options
   // });
-  const findManyBook = (params?: any, options?: UseQueryOptions<ResponseDTO<TestArrayEntity[]>, Error>) => {
+  const findManyBook = (params?: any, options?: UseQueryOptions<TestArrayEntity[], Error>) => {
     const query = useQuery({
       // queryKey: queryKeys.list(params),
       queryKey: ['books'],
@@ -56,7 +63,7 @@ export const useTestFetchApi = () => {
       enabled: false,
       ...options
     });
-    const data = computed(() => query.data.value?.data || []);
+    const data = computed(() => query.data.value || []);
 
     return {
       ...query,

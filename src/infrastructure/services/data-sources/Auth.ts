@@ -1,6 +1,7 @@
 import type { LoginRequest, LoginResponse } from "@/core/auth/AuthEntity";
-import { ContentType, HttpClient, HttpMethod } from "./http-client";
+import { HttpClient } from "./http-client";
 import type { AxiosRequestConfig } from "axios";
+import { ContentType, HttpMethod } from "@/types/HttpClient";
 //TODO: Move it to configs
 const BASE_API_URL = import.meta.env.VITE_APP_API_BASE_URL
 

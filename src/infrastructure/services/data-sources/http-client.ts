@@ -1,100 +1,24 @@
-import { setupInterceptors } from '@/plugins/AxiosInterceptors';
+import { ContentType, type AuthConfig, type HttpClientOptions, type RequestOptions } from '@/types/HttpClient';
 import type {
-  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  ResponseType as AxiosResponseType,
+  ResponseType as AxiosResponseType
 } from 'axios';
 
 import axios from 'axios';
 
-/**
- * HTTP request methods enum
- */
-export enum HttpMethod {
-  GET = 'get',
-  POST = 'post',
-  PUT = 'put',
-  PATCH = 'patch',
-  DELETE = 'delete',
-  HEAD = 'head',
-  OPTIONS = 'options',
+const setupAxiosInterceptor = async (instance: AxiosInstance) => {
+  const { setupInterceptors } = await import('@/plugins/AxiosInterceptors');
+  setupInterceptors(instance);
 }
-
-/**
- * Content types for HTTP requests
- */
-export enum ContentType {
-  JSON = 'application/json',
-  FORM_DATA = 'multipart/form-data',
-  URL_ENCODED = 'application/x-www-form-urlencoded',
-  TEXT = 'text/plain',
-}
-
-/**
- * Authorization token types
- */
-export enum TokenType {
-  BEARER = 'Bearer',
-  BASIC = 'Basic',
-}
-
-/**
- * Authentication configuration
- */
-export interface AuthConfig {
-  token: string;
-  type: TokenType;
-  refreshToken?: string;
-  expiry?: number;
-}
-
-/**
- * HTTP request options
- */
-export interface RequestOptions<D = any> {
-  method: HttpMethod | any;
-  url: string;
-  data?: D;
-  params?: Record<string, any>;
-  headers?: Record<string, any>;
-  requiresAuth?: boolean;
-  contentType?: ContentType;
-  responseType?: ResponseType | AxiosResponseType;
-  timeout?: number;
-  baseURL?: string; // Override the default baseURL
-}
-
-/**
- * HTTP Client Options for initialization
- */
-export interface HttpClientOptions {
-  baseURL?: string;
-  timeout?: number;
-  headers?: Record<string, string>;
-
-}
-
-/**
- * Type for response data parsing
- */
-export enum ResponseType {
-  ARRAYBUFFER = 'arraybuffer',
-  BLOB = 'blob',
-  DOCUMENT = 'document',
-  JSON = 'json',
-  TEXT = 'text',
-  STREAM = 'stream'
-}
-
 /**
  * HTTP Client Service - Singleton implementation
  */
 export class HttpClient {
   public instance: AxiosInstance;
   private authConfig: AuthConfig | null = null;
-
+  private interceptorsSetup = false;
   /**
    * Private constructor to prevent direct instantiation
    */
@@ -110,7 +34,7 @@ export class HttpClient {
     });
 
     // Apply interceptors Later
-    setupInterceptors(this.instance);
+     // setupInterceptors(this.instance);
   }
 
   /**
@@ -225,7 +149,10 @@ export class HttpClient {
    * Main request method
    */
   public async request<T = any, D = any>(options: RequestOptions<D>): Promise<AxiosResponse<T>> {
-    try {
+    if (!this.interceptorsSetup) {
+      await setupAxiosInterceptor(this.instance);
+      this.interceptorsSetup = true;
+    }
       const config = this.prepareRequest<D>(options);
       if (config.responseType) {
         // Make sure responseType is in lowercase to match Axios expectations
@@ -236,19 +163,10 @@ export class HttpClient {
           config.responseType = String(config.responseType).toLowerCase() as AxiosResponseType;
         }
       }
-      return this.instance.request<T>(config);
-    } catch (error) {
-      // Rethrow with better error information
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        // You can enhance this error handling based on your needs
-        throw new Error(
-          `HTTP Error: ${axiosError.response?.status} ${axiosError.response?.statusText} - ${axiosError.message}`
-        );
-      }
-      throw error;
+    return this.instance.request<T>(config);
     }
   }
+
 
   // /**
   //  * GET request method
@@ -326,5 +244,4 @@ export class HttpClient {
   //     url,
   //     ...options
   //   });
-  // }
-}
+// }
