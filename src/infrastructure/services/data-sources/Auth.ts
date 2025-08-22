@@ -2,6 +2,7 @@ import type { LoginRequest, LoginResponse } from "@/core/auth/AuthEntity";
 import { HttpClient } from "./http-client";
 import type { AxiosRequestConfig } from "axios";
 import { ContentType, HttpMethod } from "@/types/HttpClient";
+import type { ResponseDTO } from "@/types/ResponseDTO";
 //TODO: Move it to configs
 const BASE_API_URL = import.meta.env.VITE_APP_API_BASE_URL
 
@@ -25,8 +26,8 @@ export class Auth extends HttpClient {
   }
 
 
-  public async login(request: LoginRequest, axiosConfig?: AxiosRequestConfig): Promise<LoginResponse> {
-    const response = await this.request<LoginResponse>({
+  public async login(request: LoginRequest, axiosConfig?: AxiosRequestConfig) {
+    return this.request<ResponseDTO<LoginResponse>>({
       method: HttpMethod.POST,
       url: '/auth/login',
       data: request,
@@ -35,8 +36,6 @@ export class Auth extends HttpClient {
       },
       ...axiosConfig
     });
-    console.log(`Remote_Source:${this.instance.name}`, response);
-    return response.data;
   }
 
 }

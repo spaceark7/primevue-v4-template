@@ -37,15 +37,15 @@ const checked = ref(false);
 const handleLogin = async () => {
   console.log('login initiated');
   // Handle the result of the login
-  // await login.mutateAsync({ email: email.value, password: password.value });
-  // if (login.isSuccess) {
-  //   // Handle successful login
-  //   console.log('handleLogin:success', login.data.value);
-  //   router.push('/app');
-  // } else {
-  //   // Handle login error
-  //   console.error('handleLogin:error', login.error);
-  // }
+  await login.mutateAsync({ email: email.value, password: password.value });
+  if (login.isSuccess) {
+    // Handle successful login
+    console.log('handleLogin:success', login.data.value);
+    router.push('/app');
+  } else {
+    // Handle login error
+    console.error('handleLogin:error', login.error);
+  }
 };
 
 </script>

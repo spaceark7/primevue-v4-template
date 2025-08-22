@@ -8,6 +8,7 @@ const useAuthApi = () => {
   const login = useMutation({
     mutationFn: (request: LoginRequest) => loginUseCase.call(request),
     onSuccess: (data) => {
+      console.log('Login successful:', data);
       appAuthStore.setState(data);
     }
   })

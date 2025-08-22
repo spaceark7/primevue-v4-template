@@ -40,7 +40,14 @@ const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig<any> => {
     console.info('[Axios] onRequest.headers:', headers, config.url);
 
     if (headers['Require-Token'] && headers['Require-Token'] !== false) {
-      const { accessToken } = getAuthStoreState();
+      const store = getAuthStoreState();
+
+      if (!store) {
+        console.warn('[Axios] onRequest: No auth store found');
+        return config;
+      }
+
+      const accessToken = store.accessToken;
 
       console.log(
         '[Axios] onRequest.accessToken:',
