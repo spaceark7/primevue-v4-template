@@ -1,0 +1,135 @@
+{
+  "common": {
+    "yes": "Ya",
+    "no": "Tidak",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah",
+    "add": "Tambah",
+    "search": "Cari",
+    "filter": "Filter",
+    "loading": "Sedang memuat...",
+    "error": "Kesalahan",
+    "success": "Berhasil",
+    "confirm": "Konfirmasi",
+    "back": "Kembali",
+    "next": "Selanjutnya",
+    "previous": "Sebelumnya",
+    "currency": "Contoh Format Mata Uang",
+    "internationalization": "Demo Internasionalisasi"
+  },
+  "auth": {
+    "login": "Masuk",
+    "logout": "Keluar",
+    "register": "Daftar",
+    "forgotPassword": "Lupa Kata Sandi",
+    "resetPassword": "Atur Ulang Kata Sandi",
+    "username": "Nama Pengguna",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "confirmPassword": "Konfirmasi Kata Sandi",
+    "rememberMe": "Ingat Saya",
+    "loginSuccess": "Anda berhasil masuk",
+    "logoutSuccess": "Anda berhasil keluar",
+    "invalidCredentials": "Nama pengguna atau kata sandi tidak valid"
+  },
+  "navigation": {
+    "dashboard": "Dasbor",
+    "profile": "Profil",
+    "settings": "Pengaturan",
+    "users": "Pengguna",
+    "products": "Produk",
+    "orders": "Pesanan",
+    "analytics": "Analitik"
+  },
+  "dashboard": {
+    "welcome": "Selamat datang, {name}!",
+    "summary": "Ini ringkasan Anda untuk hari ini",
+    "totalSales": "Total Penjualan",
+    "totalOrders": "Total Pesanan",
+    "activeUsers": "Pengguna Aktif",
+    "newCustomers": "Pelanggan Baru"
+  },
+  "user": {
+    "profile": "Profil Pengguna",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
+    "email": "Email",
+    "phone": "Telepon",
+    "address": "Alamat",
+    "role": "Peran",
+    "lastLogin": "Terakhir Masuk",
+    "status": "Status",
+    "joined": "Bergabung {date}",
+    "updateProfile": "Perbarui Profil",
+    "changePassword": "Ubah Kata Sandi"
+  },
+  "products": {
+    "name": "Nama Produk",
+    "price": "Harga",
+    "category": "Kategori",
+    "stock": "Stok",
+    "description": "Deskripsi",
+    "addProduct": "Tambah Produk",
+    "editProduct": "Ubah Produk",
+    "deleteProduct": "Hapus Produk",
+    "productDeleted": "Produk telah dihapus",
+    "inStock": "Tersedia",
+    "outOfStock": "Habis",
+    "lowStock": "Stok Rendah"
+  },
+  "orders": {
+    "orderId": "ID Pesanan",
+    "customer": "Pelanggan",
+    "date": "Tanggal",
+    "status": "Status",
+    "total": "Total",
+    "items": "Barang",
+    "shippingAddress": "Alamat Pengiriman",
+    "billingAddress": "Alamat Penagihan",
+    "paymentMethod": "Metode Pembayaran",
+    "orderStatus": {
+      "pending": "Tertunda",
+      "processing": "Diproses",
+      "shipped": "Dikirim",
+      "delivered": "Terkirim",
+      "cancelled": "Dibatalkan"
+    },
+    "viewDetails": "Lihat Detail"
+  },
+  "notifications": {
+    "newOrder": "Pesanan baru #{id} telah dibuat",
+    "lowStock": "Produk {product} stok hampir habis",
+    "paymentReceived": "Pembayaran diterima untuk pesanan #{id}"
+  },
+  "errors": {
+    "required": "Bidang ini wajib diisi",
+    "minLength": "Bidang ini harus minimal {min} karakter",
+    "maxLength": "Bidang ini tidak boleh lebih dari {max} karakter",
+    "invalidEmail": "Silakan masukkan alamat email yang valid",
+    "passwordMismatch": "Kata sandi tidak cocok",
+    "serverError": "Terjadi kesalahan server. Silakan coba lagi nanti.",
+    "notFound": "Sumber daya tidak ditemukan",
+    "unauthorized": "Anda tidak berwenang untuk melakukan tindakan ini"
+  },
+  "plurals": {
+    "item": "{count} item",
+    "day": "{count} hari",
+    "user": "{count} pengguna",
+    "notification": "{count} notifikasi",
+    "message": "{count} pesan",
+    "order": "{count} pesanan"
+  },
+  "dateTime": {
+    "today": "Hari ini",
+    "yesterday": "Kemarin",
+    "tomorrow": "Besok",
+    "now": "Sekarang",
+    "justNow": "Baru saja",
+    "minutesAgo": "{count} menit yang lalu",
+    "hoursAgo": "{count} jam yang lalu",
+    "daysAgo": "{count} hari yang lalu",
+    "monthsAgo": "{count} bulan yang lalu"
+  }
+}

@@ -3,7 +3,7 @@
     <div class="card mb-0">
       <div class="flex justify-between mb-4">
         <div>
-          <span class="block text-muted-color font-medium mb-4">Orders</span>
+          <span class="block text-muted-color font-medium mb-4">{{ t('plurals.order') }}</span>
           <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
         </div>
         <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
@@ -72,12 +72,17 @@
 </template>
 
 <script setup lang="ts">
+import type { I18nMessageSchema } from "@/infrastructure/locales/schema";
 import { useTestFetchApi } from "@/ui/composables/apis/TestApi";
 import { useToastService } from "@/ui/composables/prime";
+import { useI18n } from "vue-i18n";
 
 const { fetchTest } = useTestFetchApi();
 const testQuery = fetchTest();
 const toast = useToastService();
+const { t } = useI18n<{
+  message: I18nMessageSchema
+}>()
 
 const handleFetchTest = async () => {
   try {

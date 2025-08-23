@@ -1,0 +1,135 @@
+{
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "currency": "Currency Format Example",
+    "internationalization": "Internationalization Demo"
+  },
+  "auth": {
+    "login": "Log In",
+    "logout": "Log Out",
+    "register": "Register",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "rememberMe": "Remember Me",
+    "loginSuccess": "You have successfully logged in",
+    "logoutSuccess": "You have successfully logged out",
+    "invalidCredentials": "Invalid username or password"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "users": "Users",
+    "products": "Products",
+    "orders": "Orders",
+    "analytics": "Analytics"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {name}!",
+    "summary": "Here's your summary for today",
+    "totalSales": "Total Sales",
+    "totalOrders": "Total Orders",
+    "activeUsers": "Active Users",
+    "newCustomers": "New Customers"
+  },
+  "user": {
+    "profile": "User Profile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "role": "Role",
+    "lastLogin": "Last Login",
+    "status": "Status",
+    "joined": "Joined {date}",
+    "updateProfile": "Update Profile",
+    "changePassword": "Change Password"
+  },
+  "products": {
+    "name": "Product Name",
+    "price": "Price",
+    "category": "Category",
+    "stock": "Stock",
+    "description": "Description",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "deleteProduct": "Delete Product",
+    "productDeleted": "Product has been deleted",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "lowStock": "Low Stock"
+  },
+  "orders": {
+    "orderId": "Order ID",
+    "customer": "Customer",
+    "date": "Date",
+    "status": "Status",
+    "total": "Total",
+    "items": "Items",
+    "shippingAddress": "Shipping Address",
+    "billingAddress": "Billing Address",
+    "paymentMethod": "Payment Method",
+    "orderStatus": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "viewDetails": "View Details"
+  },
+  "notifications": {
+    "newOrder": "New order #{id} has been placed",
+    "lowStock": "Product {product} is low in stock",
+    "paymentReceived": "Payment received for order #{id}"
+  },
+  "errors": {
+    "required": "This field is required",
+    "minLength": "This field must be at least {min} characters",
+    "maxLength": "This field cannot exceed {max} characters",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordMismatch": "Passwords do not match",
+    "serverError": "Server error occurred. Please try again later.",
+    "notFound": "Resource not found",
+    "unauthorized": "You are not authorized to perform this action"
+  },
+  "plurals": {
+    "item": "No items | One item | {count} items",
+    "day": "No days | One day | {count} days",
+    "user": "No users | One user | {count} users",
+    "notification": "No notifications | One notification | {count} notifications",
+    "message": "No messages | One message | {count} messages",
+    "order": "No orders | One order | {count} orders"
+  },
+  "dateTime": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "now": "Now",
+    "justNow": "Just now",
+    "minutesAgo": "{count} minute ago | {count} minutes ago",
+    "hoursAgo": "{count} hour ago | {count} hours ago",
+    "daysAgo": "{count} day ago | {count} days ago",
+    "monthsAgo": "{count} month ago | {count} months ago"
+  }
+}

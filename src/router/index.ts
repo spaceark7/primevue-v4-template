@@ -74,6 +74,22 @@ const router = createRouter({
           component: () =>
             import('@/ui/views/dashboards/Analytics.vue'),
         },
+        {
+          path: '/app/translations',
+          name: 'translations',
+          meta: {
+            title: 'Translations',
+            breadcrumb: [
+              { name: 'Dashboard', path: '/' },
+              {
+                name: 'Translations',
+                path: '/app/translations',
+              },
+            ],
+          },
+          component: () =>
+            import('@/ui/views/i18n/I18nDemo.vue'),
+        },
         //#region UI Kit
         {
           path: '/uikit/formlayout',
