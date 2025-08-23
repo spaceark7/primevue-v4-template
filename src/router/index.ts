@@ -1,6 +1,36 @@
+import { useAppAuthStore } from '@/stores/AppAuthStore';
 import AppLayout from '@/ui/layout/AppLayout.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
+const CNAME = 'router';
+const APP_NAME = import.meta.env.VITE_APP_NAME || 'Primevue v4';
+
+
+//#region Methods
+function isAuthenticated() {
+  //* appAuthStore
+  return useAppAuthStore().isAuthenticated();
+}
+
+function getDocumentTitle(title?: string): string {
+  let documentTitle = APP_NAME;
+  if (title) {
+    //title = title.replace('Page', '');
+    //title = capitalCaseStr(title) + ' Page';
+    title = title.trim();
+    documentTitle = `${title} | ${documentTitle}`;
+  }
+
+
+  return documentTitle;
+}
+
+function setDocumentTitle(title?: string) {
+  if (title) {
+    document.title = getDocumentTitle(title);
+  }
+}
+//#endregion Methods
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -12,6 +42,9 @@ const router = createRouter({
     {
       path: '/app',
       component: AppLayout,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
           path: '/app',
@@ -318,7 +351,7 @@ const router = createRouter({
     {
       path: '/pages/notfound',
       name: 'notfound',
-      component: () => import('@/ui/views/pages/NotFound.vue')
+      component: () => import('@/ui/views/error-pages/NotFound.vue')
     },
     {
       path: '/auth/login',
@@ -328,12 +361,12 @@ const router = createRouter({
     {
       path: '/auth/access',
       name: 'accessDenied',
-      component: () => import('@/ui/views/pages/auth/Access.vue')
+      component: () => import('@/ui/views/error-pages/AccessDenied.vue')
     },
     {
       path: '/auth/error',
       name: 'error',
-      component: () => import('@/ui/views/pages/auth/Error.vue')
+      component: () => import('@/ui/views/error-pages/Unknown.vue')
     },
 
     //#region Error Pages
@@ -376,5 +409,103 @@ const router = createRouter({
 
   ],
 })
+
+
+router.beforeEach((to, from, next) => {
+  console.log(`[${CNAME}]:router.beforeEach:`, to);
+
+  let toName;
+  if (!to.name) {
+    next('/error/unknown');
+  } else {
+    toName = to.name.toString();
+  }
+
+  //* Start the route progress bar.
+  const el = document.querySelector('#progressbar-page');
+  el?.setAttribute('class', '');
+  el?.setAttribute(
+    'class',
+    'p-progressbar p-component p-progressbar-indeterminate',
+  );
+
+  //* Set Document Title
+  setDocumentTitle(to.meta.title);
+
+  console.log(
+    `[${CNAME}]:router.beforeEach:requiresAuth:`,
+    to.meta.requiresAuth,
+  );
+  if (to.meta.requiresAuth && toName) {
+    //console.log('router.beforeEach.isAuthenticated:', isAuthenticated());
+
+    if (!isAuthenticated()) {
+      console.log(`[${CNAME}]:router.beforeEach:UnAuthenticated:`, to.fullPath);
+      next('/auth/login?redirect=' + to.fullPath);
+    } else {
+      const adState = useAppAuthStore().getState;
+      // let menu = findMenuByKeyValue(adState.sysMenuAcls, 'name', toName);
+      // console.log(`[${CNAME}]:router.beforeEach:menu:`, menu);
+      // //* Check the parent first
+      // if (!menu) {
+      //   const parentPath = to.matched[to.matched.length - 2]?.path;
+      //   const sName = toName?.split(RNS) || [];
+      //   const parentAction = sName[sName.length - 1];
+
+      //   const parentMenu = findMenuByKeyValue(
+      //     adState.sysMenuAcls,
+      //     'path',
+      //     parentPath,
+      //   );
+
+      //   if (parentMenu && parentMenu.aclActions?.includes(parentAction)) {
+      //     menu = cloneDeep(parentMenu);
+      //     menu.aclActions = [];
+      //   }
+
+      //   console.log(
+      //     `[${CNAME}]:router.beforeEach:menu:`,
+      //     parentAction,
+      //     parentPath,
+      //     parentMenu,
+      //     to,
+      //   );
+      // }
+
+      // if (menu) {
+      //* Set DocumentTitle
+      // const menuDescription = getMenuDescription(menu);
+      const menuDescription = to.meta.title || toName;
+      setDocumentTitle(menuDescription);
+      to.meta.title = menuDescription;
+
+      //* Set Breadcrumb
+      // const breadCrumb = getBreadcrumb(adState.sysMenuAcls, menu.name) ?? [];
+      // console.log(
+      //   `[${CNAME}]:router.beforeEach:breadCrumb:`,
+      //   menuDescription,
+      //   `${toName} -- ${JSON.stringify(breadCrumb)}`,
+      // );
+      // if (breadCrumb.length) {
+      //   to.meta.breadcrumb = breadCrumb;
+      // }
+
+      //* Set ActionsAcl
+      // to.meta.actionsAcl = menu?.aclActions || [];
+
+      next();
+      // }
+      //  else {
+      //   if (to.meta.isDemo) {
+      //     next();
+      //   } else {
+      //     next('/error/access-denied');
+      //   }
+      // }
+    }
+  } else {
+    next();
+  }
+});
 
 export default router

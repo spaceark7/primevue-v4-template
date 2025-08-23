@@ -3,10 +3,10 @@
     <li class="ml-3">
       <Button text icon="pi pi-bell" @click="toggleNotifOverlay" class="p-overlay-badge" badge-class="z-10 mt-2 mr-3"
         badgeSeverity="danger" :badge="notifCounter" />
-      <OverlayPanel ref="notifOverlayRef">
+      <Popover ref="notifOverlayRef">
         <div class="flex flex-column gap-3 w-28rem">
         </div>
-      </OverlayPanel>
+      </Popover>
     </li>
     <li class="ml-3">
       <div class="relative">
@@ -105,14 +105,15 @@ import {
 import { useRouter } from 'vue-router';
 import type { TColorScheme } from './types';
 import AppConfigurator from './AppConfigurator.vue';
-
+import type { Popover } from 'primevue';
+import { useAppAuthStore } from '@/stores/AppAuthStore';
 //#endregion Imports
 
 //#region Composables
 const toast = useToastService();
 const router = useRouter();
 const { currentColorScheme, changeColorScheme } = useLayout();
-const dialog = useDialog();
+const { logout } = useAppAuthStore()
 //#endregion Composables
 
 //#region Ploc/State
@@ -122,7 +123,7 @@ const dialog = useDialog();
 //#region Datas
 const overlayRef = useTemplateRef('overlayRef')
 const configPopover = useTemplateRef('configPopover');
-const notifOverlayRef = ref<InstanceType<typeof OverlayPanel> | null>(null);
+const notifOverlayRef = ref<InstanceType<typeof Popover> | null>(null);
 const visibleDialog = ref(false);
 const avatar = ref('');
 const notifCounter = ref<string>('3');
@@ -142,14 +143,16 @@ const userMenus = ref<MenuItem[]>([
       {
         label: 'Settings',
         icon: 'pi pi-cog',
-        command: () => {},
+        command: () => { },
       },
     ],
   },
   {
     label: 'Logout',
     icon: 'pi pi-sign-out',
-    command: () => {},
+    command: () => {
+      fnHandleLogout();
+    },
   },
   {
     separator: true,
@@ -158,7 +161,7 @@ const userMenus = ref<MenuItem[]>([
     class: 'p-1',
     items: [
       {
-        label: 'Version 1' ,
+        label: 'Version 1',
         class: 'flex justify-content-center',
         style: 'font-size: 11px',
       },
@@ -174,19 +177,19 @@ const userMenus = ref<MenuItem[]>([
 //* Langs Refs
 const selectedLang = ref('en');
 const availableLangsOptions = ref(
- [{
-  label: 'English',
-  value: 'en',
-},
-{
-  label: 'Spanish',
-  value: 'es',
-},
-{
-  label: 'French',
-  value: 'fr',
-}
-]
+  [{
+    label: 'English',
+    value: 'en',
+  },
+    {
+      label: 'Spanish',
+      value: 'es',
+    },
+    {
+      label: 'French',
+      value: 'fr',
+    }
+  ]
 );
 
 //* Color Scheme
@@ -242,7 +245,14 @@ const onChangeColorScheme = (e: any) => {
 };
 
 const fnHandleLogout = async () => {
-
+  logout();
+  await fnDoLogout();
+  toast.add({
+    severity: 'success',
+    summary: 'Success',
+    detail: 'You have been logged out',
+    life: 3000,
+  });
 };
 
 const fnDoLogout = async () => {

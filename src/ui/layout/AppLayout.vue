@@ -3,7 +3,7 @@
     <AppSidebar ref="sidebarRef" />
     <div class="layout-content-wrapper">
       <AppTopbar ref="topbarRef" />
-      <AppBreadcrumb v-if="!isNotebookToDesktopMode" />
+      <AppBreadcrumb v-if="!isNotebookToDesktopMode" class="mb-8" />
       <div class="layout-content">
         <router-view></router-view>
       </div>

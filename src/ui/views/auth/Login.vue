@@ -35,11 +35,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import FloatingConfigurator from '@/ui/components/FloatingConfigurator.vue';
 import LoginForm from './LoginForm.vue';
-
-
 </script>
 
 

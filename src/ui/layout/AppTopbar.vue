@@ -11,7 +11,7 @@
       <AppBreadcrumb class="topbar-breadcrumb"></AppBreadcrumb>
     </div>
     <div class="topbar-end">
-      
+
 
       <AppUserInfo v-if="
         !isHorizontal ||

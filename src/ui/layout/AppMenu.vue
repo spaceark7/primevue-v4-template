@@ -314,6 +314,11 @@ const menu: Ref<any[]> = ref([
     ],
   },
   {
+    label: 'I18n Demo',
+    icon: 'pi pi-fw pi-globe',
+    to: '/app/translations',
+  },
+  {
     label: 'UI Kit',
     icon: 'pi pi-fw pi-star-fill',
     items: [
@@ -322,6 +327,7 @@ const menu: Ref<any[]> = ref([
         icon: 'pi pi-fw pi-desktop',
         to: '/app/uikit/example',
       },
+
       {
         label: 'Form Layout',
         icon: 'pi pi-fw pi-id-card',

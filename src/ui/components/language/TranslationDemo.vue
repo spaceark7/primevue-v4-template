@@ -3,7 +3,7 @@
     <h2 class="text-2xl mb-4">{{ t('dashboard.welcome', { name: userName }) }}</h2>
 
     <div class="mb-4">
-      <h3 class="text-lg mb-2">{{ t('') }}</h3>
+      <h3 class="text-lg mb-2">{{ t('common.internationalization') }}</h3>
     </div>
 
     <div class="mb-4">
@@ -45,16 +45,12 @@
 </template>
 
 <script setup lang="ts">
+import LanguageSwitcher from '@/ui/components/language/LanguageSwitcher.vue';
+import Button from 'primevue/button';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Button from 'primevue/button';
-import LanguageSwitcher from '@/ui/components/language/LanguageSwitcher.vue';
-import type { I18nMessageSchema } from '@/infrastructure/locales/schema';
 
-const { t, d, n } = useI18n<{
-  message: I18nMessageSchema
-}>({
-});
+const { t, d, n } = useI18n();
 
 const userName = ref('John');
 const itemCount = ref(2);
