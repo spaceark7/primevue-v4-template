@@ -508,4 +508,13 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+router.afterEach((to, from) => {
+  // Complete the animation of the route progress bar.
+  const el = document.querySelector('#progressbar-page');
+
+  setTimeout(() => {
+    el?.setAttribute('class', '');
+  }, 1000);
+});
+
 export default router

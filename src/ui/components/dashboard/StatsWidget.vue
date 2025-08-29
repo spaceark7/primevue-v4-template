@@ -3,7 +3,7 @@
     <div class="card mb-0">
       <div class="flex justify-between mb-4">
         <div>
-          <span class="block text-muted-color font-medium mb-4">{{ t('plurals.order') }}</span>
+          <span class="block text-muted-color font-medium mb-4">{{ translate('plurals.order') }}</span>
           <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
         </div>
         <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
@@ -17,7 +17,7 @@
           <span class="text-primary font-medium">24 new </span>
           <span class="text-muted-color">since last visit</span>
         </div>
-        <Button label="Fetch Test" size="small" @click="handleFetchTest" :loading="testQuery.isLoading.value" />
+        <Button label="Fetch Test" size="small" @click="handleFetchTest" />
       </div>
     </div>
   </div>
@@ -73,18 +73,36 @@
 
 <script setup lang="ts">
 import type { I18nMessageSchema } from "@/infrastructure/locales/schema";
+import { serializeQuery } from 'prisma-query-tools'
 import { useTestFetchApi } from "@/ui/composables/apis/TestApi";
 import { useToastService } from "@/ui/composables/prime";
 import { useI18n } from "vue-i18n";
 
+
+const queryOptions = {
+  page: 2,
+  limit: 2,
+  sort: 'name:asc,createdAt:desc',
+  fields: ['id', 'name', 'description'],
+  // filters: {
+  //   status: 'active',
+  //   age: 30
+  // }
+};
+
+const queryString = serializeQuery(queryOptions)
+
+console.log(queryString)
+
 const { fetchTest } = useTestFetchApi();
-const testQuery = fetchTest();
+const testQuery = fetchTest(queryOptions);
 const toast = useToastService();
-const { t } = useI18n<{
+const { t: translate } = useI18n<{
   message: I18nMessageSchema
 }>()
 
 const handleFetchTest = async () => {
+
   try {
     await testQuery.refetch();
     if (testQuery.isSuccess.value) {

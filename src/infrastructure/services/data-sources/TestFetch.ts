@@ -25,19 +25,19 @@ export class TestFetch extends HttpClient {
   }
 
 
-  public async testFetch(params?: any, axiosConfig?: AxiosRequestConfig) {
+  public async testFetch(query?: any, axiosConfig?: AxiosRequestConfig) {
     return this.request<ResponseDTO<TestEntity>>({
       method: HttpMethod.GET,
-      url: '/test-endpoint',
-      params,
+      url: '/groups',
+      params: query,
       ...axiosConfig
     });
   }
 
   public async testFetchArray(params?: any, axiosConfig?: AxiosRequestConfig){
-    return this.request<ResponseDTO<TestArrayEntity[]>>({
+    return this.request<ResponseDTO<any[]>>({
       method: HttpMethod.GET,
-      url: '/books',
+      url: '/users',
       params,
       ...axiosConfig
     });

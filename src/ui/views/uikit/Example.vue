@@ -19,7 +19,20 @@
 
 <script setup lang="ts">
 import { useTestFetchApi } from '@/ui/composables/apis/TestApi';
+import { serializeQuery } from 'prisma-query-tools';
 import { onBeforeMount } from 'vue';
+
+
+const queryOptions = {
+  page: 1,
+  limit: 10,
+  // sort: 'name:asc,createdAt:desc',
+  fields: ['id', 'profile.firstName', 'email'],
+  filters: {
+    groupId: 1,
+  }
+};
+
 
 
 //#region Composables
@@ -32,7 +45,7 @@ const {
   error: booksError,
   isSuccess: booksIsSuccess,
   refetch: fetchBooks
-} = findManyBook()
+} = findManyBook(queryOptions)
 //#endregion Composables
 
 const fetchBooks2 = async () => {

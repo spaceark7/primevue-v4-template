@@ -30,6 +30,7 @@
     "pinia": "^3.0.3",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.7",
+    "prisma-query-tools": "^1.1.2",
     "reflect-metadata": "^0.2.2",
     "secure-ls": "^2.0.0",
     "tailwindcss": "^4.1.12",

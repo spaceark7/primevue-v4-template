@@ -1,8 +1,6 @@
 
 
-export type TestEntity = {
-  message: string;
-};
+export type TestEntity = any
 
 export type TestArrayEntity = {
   uuid: string;

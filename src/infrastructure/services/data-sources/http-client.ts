@@ -7,6 +7,7 @@ import type {
 } from 'axios';
 
 import axios from 'axios';
+import { serializeQuery } from 'prisma-query-tools';
 
 const setupAxiosInterceptor = async (instance: AxiosInstance) => {
   const { setupInterceptors } = await import('@/plugins/AxiosInterceptors');
@@ -163,7 +164,12 @@ export class HttpClient {
           config.responseType = String(config.responseType).toLowerCase() as AxiosResponseType;
         }
       }
-    return this.instance.request<T>(config);
+    return this.instance.request<T>({
+      ...config,
+      paramsSerializer: (params) => {
+        return serializeQuery(params, { startWithQuestionMark: false });
+      }
+    });
     }
   }
 

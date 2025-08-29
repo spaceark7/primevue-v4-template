@@ -42,7 +42,6 @@ const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig<any> => {
 
     if (headers['Require-Token'] && headers['Require-Token'] !== false) {
       const store = getAuthStoreState();
-
       if (!store) {
         console.warn('[Axios] onRequest: No auth store found');
         return config;
@@ -237,7 +236,6 @@ const onResponseError = async (
   } else {
     console.log('[Axios] onResponseError.Beside401:status', error.response?.status);
     console.info('[Axios] onResponseError.Beside401:', '-');
-    forceLogout();
 
   }
 
